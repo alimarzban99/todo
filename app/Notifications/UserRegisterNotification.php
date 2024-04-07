@@ -27,12 +27,12 @@ class UserRegisterNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $link =  URL::signedRoute('api.users.auth.verify', ['user' => $notifiable->id]);
+        $link = URL::signedRoute('api.users.auth.verify', ['user' => $notifiable->id]);
 
         return (new MailMessage)
-                    ->line('Activate your account by clicking on the link below')
-                    ->action('verify Account', $link)
-                    ->line('TODO APP');
+            ->line('Activate your account by clicking on the link below')
+            ->action('verify Account', $link)
+            ->line('TODO APP');
     }
 
 }

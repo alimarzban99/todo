@@ -15,11 +15,11 @@ class TaskUpsertDTO
      * @param int $category_id
      */
     public function __construct(
-        public readonly int $user_id,
+        public readonly int    $user_id,
         public readonly string $title,
         public readonly string $due_date,
-        public readonly ?int $parent_id,
-        public readonly int $category_id,
+        public readonly ?int   $parent_id,
+        public readonly int    $category_id,
     )
     {
     }

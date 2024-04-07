@@ -33,8 +33,8 @@ class TaskNotification extends Notification implements ShouldQueue
         $title = $this->task->title;
 
         return (new MailMessage)
-                    ->line("فردا پایان زمان انجام $title می باشد")
-                    ->line('TODO APP');
+            ->line("فردا پایان زمان انجام $title می باشد")
+            ->line('TODO APP');
     }
 
 }
