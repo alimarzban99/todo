@@ -30,22 +30,22 @@ class UserAuthController extends Controller
     public function login(UserLoginRequest $request): Response
     {
         try {
-            $userExist = $this->service->login(UserLoginDTO::fromRequest($request));
-            return $this->successResponse(['user_exist' => $userExist, 'validation_code_lifetime' => VerificationCode::VERIFICATION_CODE_LIFETIME->value, 'message' => trans('users::users.commons.messages.valid')]);
+            $data = $this->service->login(UserLoginDTO::fromRequest($request));
+            return $this->successResponse($data);
         } catch (Exception $exception) {
             return $this->reportException($exception);
         }
     }
 
     /**
-     * @param UserLoginRequest $request
+     * @param $user
      * @return Response
      * @throws Exception
      */
-    public function verify(UserLoginRequest $request): Response
+    public function verify($user): Response
     {
         try {
-            $token = $this->service->verify(UserLoginDTO::fromRequest($request));
+            $token = $this->service->verify($user);
             return $this->successResponse($token);
         } catch (Exception $exception) {
             return $this->reportException($exception);

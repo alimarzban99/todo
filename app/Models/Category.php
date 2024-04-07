@@ -18,8 +18,8 @@ class Category extends Model
     /**
      * @return HasMany
      */
-    public function todos(): HasMany
+    public function tasks(): HasMany
     {
-        return $this->hasMany(TODO::class, 'category_id', 'id');
+        return $this->hasMany(Task::class, 'category_id', 'id');
     }
 }

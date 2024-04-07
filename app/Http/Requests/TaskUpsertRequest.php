@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserLoginRequest extends FormRequest
+class TaskUpsertRequest extends FormRequest
 {
     /**
      * @return bool
@@ -20,9 +20,10 @@ class UserLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string',
-            'name' => 'required|string|min:3',
+            'title' => 'required|string|min:3',
+            'due_date' => 'required|date',
+            'parent_id' => 'nullable|numeric',
+            'category_id' => 'required|numeric|exists:categories,id',
         ];
     }
 }

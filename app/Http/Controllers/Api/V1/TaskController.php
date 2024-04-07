@@ -3,18 +3,23 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\TODO;
-use App\Services\TODOService;
+use App\Http\DTO\TaskIndexDTO;
+use App\Http\DTO\TaskUpsertDTO;
+use App\Http\Requests\TaskUpsertRequest;
+use App\Http\Resources\TaskCollection;
+use App\Http\Resources\TaskResource;
+use App\Models\Task;
+use App\Services\TaskService;
 use Exception;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TODOController extends Controller
+class TaskController extends Controller
 {
-
     /**
-     * @param TODOService $service
+     * @param TaskService $service
      */
-    public function __construct(private readonly TODOService $service)
+    public function __construct(private readonly TaskService $service)
     {
     }
 
@@ -22,56 +27,58 @@ class TODOController extends Controller
      * @return Response
      * @throws Exception
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $todos = $this->service->index();
-            return $this->successResponse(new TODOResource($todos));
+            $tasks = $this->service->index(TaskIndexDTO::fromRequest($request));
+
+            return $this->successResponse(new TaskCollection($tasks));
         } catch (Exception $exception) {
             return $this->reportException($exception);
         }
     }
 
     /**
-     * @param TODOStoreRequest $request
+     * @param Task $task
      * @return Response
      * @throws Exception
      */
-    public function store(TODOStoreRequest $request)
+    public function show(Task $task)
     {
         try {
-            $todos = $this->service->store(TODOStoreDTO::fromRequest($request));
-            return $this->createdResponse(new TODOStoreResource($todos));
+            return $this->successResponse(new TaskResource($task));
         } catch (Exception $exception) {
             return $this->reportException($exception);
         }
     }
 
     /**
-     * @param TODO $TODO
+     * @param TaskUpsertRequest $request
      * @return Response
      * @throws Exception
      */
-    public function show(TODO $TODO)
+    public function store(TaskUpsertRequest $request)
     {
         try {
-            return $this->successResponse(new TODOResource($TODO));
+            $tasks = $this->service->store(TaskUpsertDTO::fromRequest($request));
+            return $this->createdResponse(new TaskResource($tasks));
         } catch (Exception $exception) {
             return $this->reportException($exception);
         }
     }
 
+
     /**
-     * @param TODOUpdateRequest $request
+     * @param TaskUpsertRequest $request
      * @param int $id
      * @return Response
      * @throws Exception
      */
-    public function update(TODOUpdateRequest $request, int $id)
+    public function update(TaskUpsertRequest $request, int $id)
     {
         try {
-            $todo = $this->service->update($id, TODOUpdateDTO::fromRequest($request));
-            return $this->updatedResponse(new TODOResource($todo));
+            $task = $this->service->update($id, TaskUpsertDTO::fromRequest($request));
+            return $this->updatedResponse(new TaskResource($task));
         } catch (Exception $exception) {
             return $this->reportException($exception);
         }
