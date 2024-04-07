@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\URL;
 
 class TaskNotification extends Notification implements ShouldQueue
 {
@@ -31,8 +30,10 @@ class TaskNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $title = $this->task->title;
+
         return (new MailMessage)
-                    ->line("فردا پایان زمان انجام$this->task->title می باشد")
+                    ->line("فردا پایان زمان انجام $title می باشد")
                     ->line('TODO APP');
     }
 
