@@ -21,6 +21,8 @@ class TaskController extends Controller
      */
     public function __construct(private readonly TaskService $service)
     {
+        $this->authorizeResource(Task::class, 'task');
+
     }
 
     /**
@@ -70,14 +72,14 @@ class TaskController extends Controller
 
     /**
      * @param TaskUpsertRequest $request
-     * @param int $id
+     * @param Task $task
      * @return Response
      * @throws Exception
      */
-    public function update(TaskUpsertRequest $request, int $id)
+    public function update(TaskUpsertRequest $request, Task $task)
     {
         try {
-            $task = $this->service->update($id, TaskUpsertDTO::fromRequest($request));
+            $task = $this->service->update($task, TaskUpsertDTO::fromRequest($request));
             return $this->updatedResponse(new TaskResource($task));
         } catch (Exception $exception) {
             return $this->reportException($exception);
@@ -85,14 +87,14 @@ class TaskController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param Task $task
      * @return Response
      * @throws Exception
      */
-    public function destroy(int $id)
+    public function destroy(Task $task)
     {
         try {
-            $this->service->destroy($id, request()->input('type', 'normal'));
+            $this->service->destroy($task, request()->input('type', 'normal'));
             return $this->deletedResponse();
         } catch (Exception $exception) {
             return $this->reportException($exception);
@@ -100,14 +102,14 @@ class TaskController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param Task $task
      * @return Response
      * @throws Exception
      */
-    public function done(int $id)
+    public function done(Task $task)
     {
         try {
-            $this->service->done($id);
+            $this->service->done($task);
             return $this->successResponse();
         } catch (Exception $exception) {
             return $this->reportException($exception);

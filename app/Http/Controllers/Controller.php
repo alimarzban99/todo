@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\JsonExceptionHandlerTrait;
-use App\Traits\JsonResponseTrait;
+use App\Traits\ExceptionHandlerTrait;
+use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -11,6 +11,6 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
-    use JsonResponseTrait;
-    use JsonExceptionHandlerTrait;
+    use ResponseTrait;
+    use ExceptionHandlerTrait;
 }

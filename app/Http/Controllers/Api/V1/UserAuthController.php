@@ -7,7 +7,7 @@ use App\Http\DTO\UserLoginDTO;
 use App\Http\Requests\UserLoginRequest;
 use App\Services\UserAuthService;
 use Exception;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -53,14 +53,15 @@ class UserAuthController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return Response
      * @throws Exception
      */
-    public function logout(): Response
+    public function logout(Request $request): Response
     {
         try {
-            Auth::logout();
-            return $this->successResponse(trans('users::users.commons.messages.verified'));
+            $this->service->logout($request->user());
+            return $this->successResponse(trans('auth.logout'));
         } catch (Throwable $exception) {
             return $this->reportException($exception);
         }

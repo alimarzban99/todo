@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Infrastructure\Exceptions\CustomException;
+use App\Exceptions\CustomException;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
 use TypeError;
 
-trait JsonExceptionHandlerTrait
+trait ExceptionHandlerTrait
 {
     /**
      * @param Throwable $handler

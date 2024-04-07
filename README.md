@@ -5,6 +5,12 @@
 
 ## KarLancer Test Project Installation
 
+import postman collection in root project
+
+```
+file name => 'TODO.postman_collection.json'
+```
+
 Clone the repository-
 ```
 git clone https://github.com/alimarzban99/todo.git
@@ -20,7 +26,7 @@ Then do a composer install
 composer install
 ```
 
-Then create a environment file using this command-
+Then create an environment file using this command-
 ```
 cp .env.example .env
 ```
@@ -35,6 +41,12 @@ php artisan migrate
 Then change permission of storage folder using thins command-
 ```
 (sudo) chmod 777 -R storage
+```
+
+Then run this command
+
+```
+php artisan db:seed
 ```
 
 

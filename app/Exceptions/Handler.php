@@ -2,16 +2,16 @@
 
 namespace App\Exceptions;
 
-use App\Traits\JsonExceptionHandlerTrait;
-use App\Traits\JsonResponseTrait;
+use App\Traits\ExceptionHandlerTrait;
+use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
-    use JsonResponseTrait;
-    use JsonExceptionHandlerTrait;
+    use ResponseTrait;
+    use ExceptionHandlerTrait;
 
     /**
      * @var string[]

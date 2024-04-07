@@ -1,0 +1,325 @@
+{
+	"info": {
+		"_postman_id": "f957d23c-049e-4abf-b991-6779dfea12b3",
+		"name": "TODO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33123498"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "AUTH",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"ali@gmail.com\",\n    \"password\":\"12345678\",\n    \"name\":\"Ali Marzban\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}users/auth/login",
+									"host": [
+										"{{base_url}}users"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{app_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}users/auth/logout",
+									"host": [
+										"{{base_url}}users"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{app_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}users/profile",
+							"host": [
+								"{{base_url}}users"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TASK",
+			"item": [
+				{
+					"name": "Index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}task?limit=10",
+							"host": [
+								"{{base_url}}task"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}task/:todo_id",
+							"host": [
+								"{{base_url}}task"
+							],
+							"path": [
+								":todo_id"
+							],
+							"variable": [
+								{
+									"key": "todo_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Done",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}task/done/:todo_id",
+							"host": [
+								"{{base_url}}task"
+							],
+							"path": [
+								"done",
+								":todo_id"
+							],
+							"variable": [
+								{
+									"key": "todo_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"task main\",\n    \"category_id\":1,\n    \"parent_id\":1,\n    \"due_date\":\"2024-03-20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}task",
+							"host": [
+								"{{base_url}}task"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"task child\",\n    \"category_id\":1,\n    \"parent_id\":1,\n    \"due_date\":\"2024-03-20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}task/:todo_id",
+							"host": [
+								"{{base_url}}task"
+							],
+							"path": [
+								":todo_id"
+							],
+							"variable": [
+								{
+									"key": "todo_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}task/:todo_id?type=normal",
+							"host": [
+								"{{base_url}}task"
+							],
+							"path": [
+								":todo_id"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "normal",
+									"description": "normal OR purge"
+								}
+							],
+							"variable": [
+								{
+									"key": "todo_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{app_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://todo.local/api/",
+			"type": "string"
+		},
+		{
+			"key": "app_token",
+			"value": "13|rUqsv3ijgpOaSQBSBma3XwDKWtlHeaJX6kGhjHRxe657bc35",
+			"type": "string"
+		}
+	]
+}

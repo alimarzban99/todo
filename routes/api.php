@@ -11,17 +11,18 @@ Route::prefix('users/auth')
     ->group(static function () {
         Route::post('login', [UserAuthController::class, 'login'])->name('auth.login');
         Route::get('verify/{user}', [UserAuthController::class, 'verify'])->name('auth.verify');
-        Route::post('logout', [UserAuthController::class, 'logout'])->name('auth.logout');
     });
 
 Route::prefix('users')
     ->as('api.users.')
     ->group(static function () {
         Route::get('profile', [UserController::class, 'profile'])->name('profile');
+        Route::post('auth/logout', [UserAuthController::class, 'logout'])->name('auth.logout');
+
     });
 
 Route::as('api')
     ->group(static function () {
         Route::apiResource('task', TaskController::class);
-        Route::get('task/done/{id}', [TaskController::class, 'done']);
+        Route::get('task/done/{task}', [TaskController::class, 'done']);
     });

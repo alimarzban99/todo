@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Exceptions\CustomException;
 use App\Http\DTO\TaskIndexDTO;
 use App\Http\DTO\TaskUpsertDTO;
-use App\Infrastructure\Exceptions\CustomException;
 use App\Repositories\TaskRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -36,26 +36,24 @@ class TaskService
     }
 
     /**
-     * @param int $id
+     * @param object $task
      * @param TaskUpsertDTO $upsertDTO
      * @return object
      */
-    public function update(int $id, TaskUpsertDTO $upsertDTO): object
+    public function update(object $task, TaskUpsertDTO $upsertDTO): object
     {
         $attr = (array)$upsertDTO;
         unset($attr['user_id']);
-        return $this->repository->update($id, $attr);
+        return $task->update($attr);
     }
 
     /**
-     * @param int $id
+     * @param object $task
      * @param string $type
      * @return void
      */
-    public function destroy(int $id, string $type = 'normal'): void
+    public function destroy(object $task, string $type = 'normal'): void
     {
-        $task = $this->repository->findOne($id);
-
         if ($type === 'purge') {
             $task->forceDelete();
         } else {
@@ -64,14 +62,12 @@ class TaskService
     }
 
     /**
-     * @param int $id
+     * @param object $task
      * @return void
      * @throws CustomException
      */
-    public function done(int $id): void
+    public function done(object $task): void
     {
-        $task = $this->repository->findOne($id);
-
         if ($task->is_done) {
             throw new CustomException('این کار قبلا به اتمام رسیده است');
         }

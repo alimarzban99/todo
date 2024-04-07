@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Exceptions;
+namespace App\Exceptions;
 
 use Exception;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;

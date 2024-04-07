@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
+use App\Exceptions\CustomException;
 use App\Http\DTO\UserLoginDTO;
-use App\Infrastructure\Exceptions\CustomException;
 use App\Notifications\UserRegisterNotification;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\NewAccessToken;
 
 class UserAuthService
 {
@@ -21,12 +20,17 @@ class UserAuthService
     /**
      * @param UserLoginDTO $loginDTO
      * @return array
+     * @throws CustomException
      */
     public function login(UserLoginDTO $loginDTO): array
     {
         $user = $this->repository->findByEmail($loginDTO->email);
 
-        if (!empty($user) && !empty($user->email_verified_at) && Hash::check($loginDTO->password, $user->password)) {
+        if (!empty($user) && !empty($user->email_verified_at)) {
+
+            if (!Hash::check($loginDTO->password, $user->password)) {
+                throw new CustomException(trans('auth.failed'));
+            }
             return [
                 'token' => $user->createToken('LOGIN_TOKEN')->plainTextToken,
                 'message' => trans('auth.login')
@@ -48,10 +52,10 @@ class UserAuthService
 
     /**
      * @param int $user
-     * @return NewAccessToken
+     * @return mixed
      * @throws CustomException
      */
-    public function verify(int $user): NewAccessToken
+    public function verify(int $user): mixed
     {
         $user = $this->repository->findOne($user);
 
@@ -62,5 +66,14 @@ class UserAuthService
         $user->update(['email_verified_at' => now()]);
 
         return $user->createToken('REGISTER_TOKEN')->plainTextToken;
+    }
+
+    /**
+     * @param object $user
+     * @return void
+     */
+    public function logout(object $user): void
+    {
+        $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
     }
 }
