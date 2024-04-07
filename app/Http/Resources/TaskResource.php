@@ -19,6 +19,7 @@ class TaskResource extends JsonResource
             'title' => $this->resource->title,
             'category' => $this->resource->category->name,
             'due_date' => Carbon::parse($this->resource->due_date)->format('Y-m-d H:i:s'),
+            'is_done' => $this->resource->is_done ? 'انجام شده' : 'انجام نشده',
             'sub_tasks' => new SubTaskCollection($this->resource->subTasks),
             'created_at' => Carbon::parse($this->resource->created_at)->format('Y-m-d H:i:s'),
         ];

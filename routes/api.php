@@ -23,4 +23,5 @@ Route::prefix('users')
 Route::as('api')
     ->group(static function () {
         Route::apiResource('task', TaskController::class);
+        Route::get('task/done/{id}', [TaskController::class, 'done']);
     });

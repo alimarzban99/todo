@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Http\DTO\TaskIndexDTO;
-use App\Http\DTO\TaskStoreDTO;
 use App\Http\DTO\TaskUpsertDTO;
+use App\Infrastructure\Exceptions\CustomException;
 use App\Repositories\TaskRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -54,12 +54,29 @@ class TaskService
      */
     public function destroy(int $id, string $type = 'normal'): void
     {
-        $todo = $this->repository->findOne($id);
+        $task = $this->repository->findOne($id);
 
         if ($type === 'purge') {
-            $todo->forceDelete();
+            $task->forceDelete();
         } else {
-            $todo->delete();
+            $task->delete();
         }
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     * @throws CustomException
+     */
+    public function done(int $id): void
+    {
+        $task = $this->repository->findOne($id);
+
+        if ($task->is_done) {
+            throw new CustomException('این کار قبلا به اتمام رسیده است');
+        }
+
+        $task->update(['is_done' => true]);
+
     }
 }

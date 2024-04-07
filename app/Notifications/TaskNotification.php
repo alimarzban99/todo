@@ -12,6 +12,10 @@ class TaskNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public function __construct(private readonly object $task)
+    {
+    }
+
     /**
      * @param object $notifiable
      * @return string[]
@@ -27,11 +31,8 @@ class TaskNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $link =  URL::signedRoute('api.users.auth.verify', ['user' => $notifiable->id]);
-
         return (new MailMessage)
-                    ->line('Activate your account by clicking on the link below')
-                    ->action('verify Account', $link)
+                    ->line("فردا پایان زمان انجام$this->task->title می باشد")
                     ->line('TODO APP');
     }
 

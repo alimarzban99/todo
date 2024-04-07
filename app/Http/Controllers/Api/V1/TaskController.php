@@ -98,4 +98,19 @@ class TaskController extends Controller
             return $this->reportException($exception);
         }
     }
+
+    /**
+     * @param int $id
+     * @return Response
+     * @throws Exception
+     */
+    public function done(int $id)
+    {
+        try {
+            $this->service->done($id);
+            return $this->successResponse();
+        } catch (Exception $exception) {
+            return $this->reportException($exception);
+        }
+    }
 }

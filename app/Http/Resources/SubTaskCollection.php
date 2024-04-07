@@ -22,6 +22,7 @@ class SubTaskCollection extends ResourceCollection
                 'title' => $item->title,
                 'category' => $item->category->name,
                 'due_date' => Carbon::parse($item->due_date)->format('Y-m-d H:i:s'),
+                'is_done' => $item->is_done ? 'انجام شده' : 'انجام نشده',
                 'created_at' => Carbon::parse($item->created_at)->format('Y-m-d H:i:s'),
             ];
         });

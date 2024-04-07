@@ -12,8 +12,11 @@ class Task extends Model
     use SoftDeletes;
 
     protected $table = 'tasks';
+    protected $fillable = ['user_id', 'category_id', 'parent_id', 'title', 'due_date', 'is_done'];
 
-    protected $fillable = ['user_id', 'category_id', 'parent_id', 'title', 'due_date'];
+    protected $casts = [
+        'is_done' => 'boolean'
+    ];
 
     /**
      * @return BelongsTo

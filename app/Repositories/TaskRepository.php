@@ -39,6 +39,7 @@ class TaskRepository extends BaseRepository
     {
         return $this->model->query()
             ->with('user')
+            ->where('is_done', '=', false)
             ->whereDate('due_date', '=', now()->addDay()->format('Y-m-d'))
             ->get();
     }
