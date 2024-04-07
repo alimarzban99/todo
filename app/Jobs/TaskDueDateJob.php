@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Notifications\TaskNotification;
+use App\Repositories\TaskRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -25,6 +27,10 @@ class TaskDueDateJob implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        $tomorrowTasks = app(TaskRepository::class)->getTomorrowTasks();
+
+        foreach ($tomorrowTasks as $task) {
+            $task->user->notify(new TaskNotification($task));
+        }
     }
 }
